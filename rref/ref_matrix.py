@@ -1,6 +1,14 @@
 import numpy as np
 
 def ref_matrix(matrix):
+
+    '''
+        ref_matrix -> REF-matrix with zeros below the diagonal (j,j) and with values on the main diagonal and above
+
+        Args: matrix -> it can accapet as python list and numpy array  
+        Returns matrix in reduced echelon form 
+    '''
+
     # get the shape of the matrix
     rows, cols = len(matrix), len(matrix[0])
 

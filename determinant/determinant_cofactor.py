@@ -1,8 +1,19 @@
 import numpy as np
 import time
-import scipy
+
 
 def determinant_cofactor(matrix): 
+
+    '''
+        The determinant of the given matrix is calculated by using cofactor method: 
+        if matrix has 5rows/columns then it has 5 cofactors with size (5-1)rows/columns (sub-matrix)
+        then algo calculate the determinant of its submatrix and multiplies it by factor. 
+        The sigh of the factor is defined as (-1)^(i+j)
+
+        Notes: this procedure is very expensive from time and calculation point of view 
+
+        Returns the numerical values, the determinant of the matirx 
+    '''
 
     matrix = np.array(matrix)
     rows, cols = matrix.shape
@@ -44,56 +55,23 @@ def determinant_cofactor(matrix):
 
     return determinant
 
-q_non = np.array([
-    [1, 1, -1, -1],
-    [1, -1, -1, 1],
-    [1, 1, 1, 1],
-    [1, -1, 1, -1],
-])
 
-Q = q_non * 1/2
+def bench_comprassion(g_matrix, my_func, np_func):
+    
+    t_general = time.process_time()
+    mdet = my_func(g_matrix)
+    print('My function execution time: ', time.process_time() - t_general)
 
-print('Determinant of unnormalized Q: ', determinant_cofactor(q_non))
-print('Determinant of  normalized Q : ', determinant_cofactor(Q))
-
-
-# t_general = time.process_time()
-
-# for i in range(2, 11): 
-#     t = time.process_time()
-
-#     generated_matrix = matrix_generator(i, i)
-#     determinant = determinant_cofactor(generated_matrix)
-#     print(determinant)
-
-#     print(f'Epoch-{i} time: ', time.process_time() - t)
-
-# print('Total loop time: ', time.process_time() - t_general)
+    t_general = time.process_time()
+    npdet = np_func(g_matrix)
+    print('My function execution time: ', time.process_time() - t_general)
 
 
-# t_general = time.process_time()
+    print(f'My result of calculation: {mdet};\nNumpy result of calculation: {npdet}')
 
-# for i in range(2, 11): 
-#     t = time.process_time()
 
-#     generated_matrix = matrix_generator(i, i)
-#     determinant = np.linalg.det(generated_matrix)
-#     # determinant = np.linalg.slogdet(generated_matrix)
-#     print(determinant)
+matrix = np.random.rand(10, 10)
+bench_comprassion(matrix, determinant_cofactor, np.linalg.det)
 
-#     print(f'Epoch-{i} time: ', time.process_time() - t)
-
-# print('Total loop time with numpy: ', time.process_time() - t_general)
-
-# for i in range(2, 11): 
-#     t = time.process_time()
-
-#     generated_matrix = matrix_generator(i, i)
-#     determinant = scipy.linalg.det(generated_matrix)
-#     print(determinant)
-
-#     print(f'Epoch-{i} time: ', time.process_time() - t)
-
-# print('Total loop time with numpy: ', time.process_time() - t_general)
                 
 

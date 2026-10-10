@@ -1,6 +1,17 @@
 import numpy as np
 
 def reduced_ref_matrix(matrix):
+
+    '''
+        The function takes list of values (list(list[int]), numpy.ndarray) and returns matrix in Reduced Row Echelon Form
+
+        Args:
+            matrix - matrix of numbers 
+
+        Returns matrix with one's on the diagonal. 
+        If it is not full-rank matrix then it cannot be compltetely reduced
+    '''
+
     # get the shape of the matrix
     rows, cols = len(matrix), len(matrix[0])
 

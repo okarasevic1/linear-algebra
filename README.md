@@ -1,0 +1,4 @@
+# H1 Linear Algebra 
+# H2 Idea:
+The main idea of this project is to create the algorithmical understanding of the matrix operations. The video-lectures of Gilbert Strang you can find on link (https://youtube.com/playlist?list=PL49CF3715CB9EF31D&si=wb4o5ifcZoVbPUre). But the algorithms are very unstable for large matrices: even for determinant calculation of 10x10 matrix using cofactor-method takes 7seconds for computer to calculate it, **what if our dataset contains 2 mln rows with 20 features?**
+**The answer is: to use complex algoritms for matrix operations, or modified original equations.** 

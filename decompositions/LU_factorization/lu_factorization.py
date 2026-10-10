@@ -5,6 +5,18 @@ import numpy as np
 # A = LU
 def LU_decomposition(matrix: np.ndarray): 
 
+    '''
+        The algo reduces matrix to: 
+        L - lower-triangular form, with zeros above the diagonal
+        U - upper-triangular form, with zeros below the diagonal
+        A = LU
+
+        Args:
+            it takes numpy array for numerical stability 
+
+        Returns two matrices: L, U 
+    '''
+
     # check whether it is square 
     row_len, col_len = matrix.shape
 

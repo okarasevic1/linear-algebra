@@ -6,14 +6,13 @@ import time
 # L_ii = sqrt(A_ii - sum(L_in<i))
 # The formula for subdiagonal
 # L_ij = 1/L_ii * A_ij
-
-def cholesky(init_matrix:np.ndarray):
+def cholelsky(init_matrix:np.ndarray):
 
     # check whether it is square
     m, n = init_matrix.shape
     if m != n:
         print('Matrix is NOT sqaure')
-        return None
+        raise ValueError
 
     L = np.eye(m)
 
@@ -27,9 +26,9 @@ def cholesky(init_matrix:np.ndarray):
             print('Matrix is not Positive definite')
             return None
 
-        l_j = np.sqrt(diff)
-        L[j, j] = l_j
-        inv_L_ij = l_j ** -1 # 1/L_jj
+        l_jj = np.sqrt(diff)
+        L[j, j] = l_jj
+        inv_L_ij = l_jj ** -1 # 1/L_jj
 
         # calculate the entries under the diagonal 
         for i in range(j+1, m):
@@ -47,9 +46,9 @@ def cholesky(init_matrix:np.ndarray):
 
 # Testing ====================================================
 
-def test(A): 
+def test(my_func, np_func, matrix_A:np.ndarray): 
     my_time_s = time.time()
-    l = cholesky(A)
+    l = my_func(matrix_A)
 
     my_time_e = time.time()
     my_time_diff = my_time_e - my_time_s
@@ -57,40 +56,13 @@ def test(A):
     # print(f'My algo: \n', l)
 
     np_time_s = time.time()
-    np_l = np.linalg.cholesky(A)
+    np_l = np_func(matrix_A)
 
     np_time_e = time.time()
     np_time_diff = np_time_e - np_time_s
     # print(f'Numpy algo: \n', np_l)
 
     # print(f'A=L*L^T: \n', l@l.T)
-    print(f'My execution time: {my_time_diff}, Numpy execution time: {np_time_diff}, Ratio: {my_time_diff / np_time_diff}')
-
-
-# generate random SPD matrix 
-def random_spd(N:int):
-
-    a = np.random.randint(
-        low=0, high=10+1, size=(N, N)
-        )
-    # A^t * A is a positive definite matrix
-    matrix = np.dot(a.T, a)
-    return matrix
-
-
-matrix_1 = random_spd(3)
-test(matrix_1)
-
-matrix_2 = random_spd(5)
-test(matrix_2)
-
-matrix_3 = random_spd(10)
-test(matrix_3)
-
-matrix_4 = random_spd(20)
-test(matrix_4)
-
-matrix_5 = random_spd(100)
-test(matrix_5)
+    print(f'My execution time: {my_time_diff};\nNumpy execution time: {np_time_diff};\nRatio: {my_time_diff / np_time_diff}')
 
 
