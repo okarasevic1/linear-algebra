@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.linalg import hessenberg
-from memory_profiler import profile
+
 
 
 np.set_printoptions(precision=3, suppress=True)

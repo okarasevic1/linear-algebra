@@ -7,6 +7,8 @@ class MGenerator:
             size -> 1st value is rows and 2nd is columns 
             dtype -> float/int/double/etc.
             spd_matrix -> true: it is positive definite matrix (A^T * A); false: random matrix 
+
+            Returns either matrix with givan size and random entries or similiar positive definite matrix
         '''
 
         matrix = None

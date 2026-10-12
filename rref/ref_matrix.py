@@ -12,6 +12,8 @@ def ref_matrix(matrix):
     # get the shape of the matrix
     rows, cols = len(matrix), len(matrix[0])
 
+    tol = 1e-10
+
     # loop through. If matrix is not square then we need to find which value to use. 
     # Use smaller value
     pivot_row = 0
@@ -22,13 +24,13 @@ def ref_matrix(matrix):
         if pivot_row >= rows:
             break
         
-        if matrix[pivot_row][col] == 0: 
+        if abs(matrix[pivot_row][col]) < tol: 
             # find another the leftmost non-zero column
             for j in range(pivot_row+1, rows):
-                if matrix[j][col] != 1e-8:
+                if abs(matrix[j][col]) > tol:
                     buffer = np.array(matrix[pivot_row])
                     matrix[pivot_row] = np.array(matrix[j])
-                    matrix[j] = np.array(buffer)
+                    matrix[j] = buffer
                     continue
                 else:
                     pivot_row += 1
@@ -42,8 +44,6 @@ def ref_matrix(matrix):
 
         # Step 4. Use elementary row operations to put zeros (strictly) below the pivotposition.
         for i_row in range(pivot_row+1, rows):
-            # factor = matrix[i_row][col] / pivot
-            # matrix[i_row] = matrix[i_row] - (factor*matrix[pivot_row])
             factor = matrix[i_row, col] / pivot
             matrix[i_row] = matrix[i_row] - factor * matrix[pivot_row]
             

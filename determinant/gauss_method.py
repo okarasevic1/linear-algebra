@@ -1,57 +1,66 @@
 import numpy as np
 
 
-def gauss_method_determinant(matrix):
+def gauss_method_determinant(np_matrix:np.ndarray[np.float32]):
     '''
         Perform Gauss's Method on matrix. This code is for illustration only
         and should not be used in practice.
-        m list of lists of numbers; each included list is a row
+        m list of lists of numbers; each included list is a row.
+
+        Reduce to the upper triangulat matrix -> 
+        store operations -> 
+        compute determinant of the upper-triangular matrix (product of its entires on the main diagonal)
+        -> multiply det with stored operations -> the result will be it's determinant.
     '''
-    num_rows, num_cols = len(matrix), len(matrix[0])
+
+    matrix = np_matrix.copy()
+    num_rows, num_cols = matrix.shape
 
     # Step 1. Begin with an m × n matrix A. If A = 0, go to Step 7.
-    TOL = 1e-10
+    TOL = 1e-14
 
     if num_rows != num_cols:
         print('It is not square matrix!')
         return None
 
-    ref_matrix = []
-    pivot_row, pivot_col = 0, 0
+    pivot_row = 0
 
-    det_ref = 1
+    det_op = 1
+    n_row_swaps = 0
 
     # Reduce the matrix to the RREF or REF
     for col in range(num_cols):
 
-        for i_row in range(num_rows):
-            pivot_entry = matrix[pivot_row][pivot_col]
-            
-            factor = 0
+        if pivot_row == num_rows:
+            break
 
-            if pivot_entry != TOL:
-                matrix[pivot_row] = matrix[pivot_row] / pivot_entry # reduce pivot entry to one 
-                det_ref *= pivot_entry # det(kp) = k * det(p)
-            
-            if pivot_entry == TOL:
-                buffer = np.array(matrix[i_row])
-                matrix[i_row] = matrix[i_row+1]
-                matrix[i_row+1] = buffer
-                det *= (-1) # det(p, l) = -1 * det (l, p); change the sign
+        swap_rows = False
 
-            # for j_row in range(i_row+1, num_rows+1):
-            #     factor = 
-            #     m[j_row] = 
+        if np.isclose(matrix[pivot_row, col], 0, atol=TOL, rtol=0):
+
+            for j in range(pivot_row + 1, num_rows):
+                if abs(matrix[j, col]) > TOL:
+                    matrix[[pivot_row, j]] = matrix[[j, pivot_row]]
+                    n_row_swaps += 1
+                    swap_rows = True
+                    break
+
+            if not swap_rows:
+                continue
+
+
+        pivot_entry = matrix[pivot_row][col]
+
+        for i_row in range(pivot_row+1, num_rows):
+            factor = matrix[i_row, col] / pivot_entry
+            matrix[i_row] -= factor * matrix[pivot_row]
+
+        # accumulate the products of pivot entries
+        det_op *= pivot_entry
+
+        pivot_row += 1
     
-    # ref_matrix = np.array(ref_matrix)
-    # return ref_matrix
-
-
-
-matrix = np.array([[1, 2], [3, 4]], dtype=np.float16)
-index = 1, 0
-print(matrix)
-buffer = np.array(matrix[0])
-matrix[0] = matrix[1]
-matrix[1] = buffer
-print(matrix)
+    # set the right sign
+    det_op = ((-1)**n_row_swaps) * det_op
+                
+    return det_op

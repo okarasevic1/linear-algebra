@@ -1,14 +1,14 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Відстань від Times Square в милях (X)
+# the distance away from Time Square
 distances = [2, 7, 8, 16, 27, 47, 67, 82, 102, 120]
 ones = np.ones_like(distances)
 
 matrix = np.vstack([ones, distances]).T
 
 
-# Вартість проїзду в USD (Y)
+# Cost of tolls USD (Y)
 tolls = [6.00, 6.00, 6.00, 6.50, 2.50, 1.00, 1.00, 1.00, 1.00, 1.00]
 
 # calculate the line of the best fit
